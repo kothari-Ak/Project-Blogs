@@ -1,4 +1,3 @@
-
 const mongoose = require ("mongoose")
 const ObjectId = mongoose.Schema.Types.ObjectId
 const blogSchema = new mongoose.Schema({
@@ -25,9 +24,17 @@ const blogSchema = new mongoose.Schema({
     subCategory:{
         type:[String]
     },
+    deletedAt:{
+        type:Date,
+        default:Date.now
+    },
     isDeleted:{
         type:Boolean,
         default:false
+    },
+    publishedAt:{
+        type:Date,
+        default:Date.now
     },
     isPublished:{
         type:Boolean,
