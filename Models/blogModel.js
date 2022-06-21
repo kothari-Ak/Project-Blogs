@@ -19,7 +19,7 @@ const blogSchema = new mongoose.Schema({
         type:[String]
     },
     category:{
-        type:[String],
+        type:String,
         require:true
     },
     subCategory:{
@@ -35,4 +35,4 @@ const blogSchema = new mongoose.Schema({
     },
 
 }, { timestamps: true});
-module.exports = mongoose.model('ProjectBlog', blogSchema)
+module.exports = mongoose.model('Project_Blog', blogSchema)
