@@ -1,16 +1,13 @@
 const express = require('express');
 const router = express.Router();
-const AuthorController= require("../Controllers/authorController")
-const BlogController= require("../Controllers/blogController")
 
+const BlogController = require("../Controllers/blogControllers")
 
 
 router.get("/test-me", function (req, res) {
     res.send("My first ever api!")
 })
 
-router.post("/BASE_URL/authors", AuthorController.creatAuthor)
-
+router.post("/blogs", AuthorController.createBlog)
 router.post("/blogs", BlogController.createBlog)
-
 module.exports = router;
