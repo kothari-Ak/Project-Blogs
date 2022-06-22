@@ -1,8 +1,8 @@
 const express = require('express');
 const router = express.Router();
-
+const AuthorController = require("../Controllers/authorController")
 const BlogController = require("../Controllers/blogController")
-const AuthorController = require("../Controllers/authorControllers")
+
 
 router.get("/test-me", function (req, res) {
     res.send("My first ever api!")

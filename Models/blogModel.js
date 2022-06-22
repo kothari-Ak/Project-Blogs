@@ -3,7 +3,7 @@ const ObjectId = mongoose.Schema.Types.ObjectId
 const blogSchema = new mongoose.Schema({
     title:{
         type:String,
-        reuire:true
+        require:true
     },
     body:{
         type:String,
@@ -26,20 +26,22 @@ const blogSchema = new mongoose.Schema({
     },
     deletedAt:{
         type:Date,
-        default:Date.now
-       
+        default:null
+
     },
-    publishedAt:{
-        type:Date,
-        default:Date.now},
     isDeleted:{
         type:Boolean,
         default:false
     },
-    isPublished:{
+    
+    publishedAt:{
+        type:Date,
+    default:null},
+   
+    isPublished:{ 
         type:Boolean,
         default:false
     },
 
 }, { timestamps: true});
-module.exports = mongoose.model('ProjectBlog', blogSchema)
+module.exports = mongoose.model('Project_Blogs', blogSchema)
