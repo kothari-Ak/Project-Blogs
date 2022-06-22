@@ -2,7 +2,7 @@ const authorModel = require("../Models/authorModel")
 const BlogModel = require("../Models/blogModel")
 
 const createBlog= async function (req, res) {
-
+try{
     let data = req.body
     let AuthorId = data.authorId
 
@@ -11,6 +11,11 @@ const createBlog= async function (req, res) {
 
     let blogCreated = await BlogModel.create(data)
     res.status(201).send({status: true,data: blogCreated})
+}
+catch(err){
+    console.log(err)
+    res.status(500).send({msg:err.message})
+}
 }
 
 module.exports.createBlog= createBlog;
