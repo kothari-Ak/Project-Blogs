@@ -22,7 +22,7 @@ const blogSchema = new mongoose.Schema({
     subCategory:[String], 
     deletedAt:{
       type:Date,
-      defaul:Date.now
+      default:null
     },
     isDeleted:{
         type:Boolean,
@@ -30,12 +30,12 @@ const blogSchema = new mongoose.Schema({
     },
     publishedAt:{
         type:Date,
-        defaul:Date.now
+        default:null
     },
-    isPublished:{ 
+    isPublished:{
         type:Boolean,
         default:false
     }
 
 }, { timestamps: true});
-module.exports = mongoose.model('Project_Blogs', blogSchema)
+module.exports = mongoose.model('Project_Blog', blogSchema)
