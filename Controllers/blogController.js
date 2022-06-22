@@ -25,7 +25,7 @@ const updateBlog = async function (req, res) {
         let data = req.body;
         let blogId = req.params.blogId;
         
-        const { title, body, tags, subCategory } = data;
+        const { title, body, tags, subCategory, category} = data;
         if(!title) return res.status(400).send({status:false, msg: "Title should be present"})
         if(!body) return res.status(400).send({status:false, msg: "Body is not present"})
         if(!tags) return res.status(400).send({status:false, msg: "Tags not present"})
@@ -38,7 +38,7 @@ const updateBlog = async function (req, res) {
         if (blog.isDeleted == true) {
             return res.status(400).send({ status: false, msg: "Blog not found, may be deleted" })
         }
-        let updatedblog = await BlogModel.findByIdAndUpdate({ _id: blogId }, { $addToSet: { tags: tags, subCategory: subCategory }, $set: { title: title, body: body, isPublished:true, publishedAt: Date.now() } }, { new: true });
+        let updatedblog = await BlogModel.findByIdAndUpdate({ _id: blogId }, { $addToSet: { tags: tags, subCategory: subCategory }, $set: { title: title, body: body, category: category, isPublished:true, publishedAt: Date.now() } }, { new: true });
 
         res.status(200).send({status: true, msg: "done", data: updatedblog });
     }
