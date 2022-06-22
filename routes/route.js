@@ -10,5 +10,6 @@ router.get("/test-me", function (req, res) {
 
 router.post("/BASE_URL/authors", AuthorController.createAuthor)
 router.post("/blogs", BlogController.createBlog)
+router.put("/blogs/:blogId", BlogController.updateBlog)
 
 module.exports = router;
