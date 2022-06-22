@@ -27,7 +27,6 @@ const blogSchema = new mongoose.Schema({
     deletedAt:{
         type:Date,
         default:null
-
     },
     isDeleted:{
         type:Boolean,
@@ -44,4 +43,4 @@ const blogSchema = new mongoose.Schema({
     },
 
 }, { timestamps: true});
-module.exports = mongoose.model('Project_Blogs', blogSchema)
+module.exports = mongoose.model('Project_Blog', blogSchema)
