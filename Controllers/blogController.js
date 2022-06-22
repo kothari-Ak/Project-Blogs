@@ -13,8 +13,9 @@ try{
     res.status(201).send({status: true,data: blogCreated})
 }
 catch(err){
-    console.log(err)
-    res.status(500).send({msg:err.message})
+    console.log("This is the error:", err.message)
+  res.status(500).send({ msg: "Error", error: err.message })
+
 }
 }
 
