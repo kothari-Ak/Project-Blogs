@@ -15,9 +15,25 @@ try{
 catch(err){
     console.log("This is the error:", err.message)
   res.status(500).send({ msg: "Error", error: err.message })
+}
+}
 
-}
-}
+const getAllBlogs = async function (req, res) {
+    try {
+      let data = req.query
+      console.log(data)
+      let allBlogs = await BlogModel.find(data,
+        { isDeleted: false },
+        { isPublished: true }
+      );
+      if (!allBlogs) {
+        return res.status(404).send({ msg: 'please enter valid blogs' });
+      }
+      res.status(200).send(allBlogs);
+    } catch (err) {
+      res.status(500).send({ msg: 'Error', error: err.message });
+    }
+  };
 
 
 const updateBlog = async function (req, res) {
@@ -46,7 +62,48 @@ const updateBlog = async function (req, res) {
         res.status(500).send({status: false, msg: "Error", error: err.message })
     }
 }
-                
 
+
+const deleteblog = async function (req, res) {
+    try {
+        let blogId = req.params.blogId;
+        let blog = await BlogModel.findById(blogId);
+        
+         if (!blog) {
+            return res.status(404).send({status: false,msg:"No such blog exists"});
+        }
+
+        if(await BlogModel.findByIdAndUpdate(blog, { $set: { isDeleted: true, deletedAt: Date.now() } }, { new: true }));
+    
+            res.status(200).send({status: true, msg: "done" });
+        }
+    catch (err) {
+        res.status(500).send({status: false, msg: "Error", error: err.message })
+    }
+  
+}
+ 
+const deleteblogByQuery = async function (req, res) {
+        try {
+            const query = req.query
+    
+            let fetchdata = await BlogModel.find(query)
+    
+    
+            if (!fetchdata) {
+                return res.status(404).send({ status: false, msg: " Blog document doesn't exist " })
+            }
+    
+            let deletedtedUser = await BlogModel.updateMany(query, { $set: { isDeleted: true, deletedAt: Date.now() } }, { new: true });
+    
+            res.status(200).send({status: true, msg: "done", data: deletedtedUser });
+        }
+        catch (err) {
+            res.status(500).send({status: false, msg: "Error", error: err.message })
+        }
+    }
+module.exports.deleteblog= deleteblog;     
+module.exports.getAllBlogs=getAllBlogs   
+module.exports.deleteblogByQuery=deleteblogByQuery
 module.exports.createBlog= createBlog;
 module.exports.updateBlog= updateBlog;

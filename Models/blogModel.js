@@ -3,7 +3,7 @@ const ObjectId = mongoose.Schema.Types.ObjectId
 const blogSchema = new mongoose.Schema({
     title:{
         type:String,
-        reuire:true
+        require:true
     },
     body:{
         type:String,
@@ -32,11 +32,12 @@ const blogSchema = new mongoose.Schema({
         type:Boolean,
         default:false
     },
+    
     publishedAt:{
         type:Date,
-        default:null
-    },
-    isPublished:{
+    default:null},
+   
+    isPublished:{ 
         type:Boolean,
         default:false
     },
