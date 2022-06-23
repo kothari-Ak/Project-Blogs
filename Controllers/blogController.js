@@ -1,6 +1,10 @@
+const mongoose=require('mongoose')
 const authorModel = require("../Models/authorModel")
 // const blogModel = require("../Models/blogModel")
 const BlogModel = require("../Models/blogModel")
+const isValidObjectId = function (objectId) {
+    return mongoose.Types.ObjectId.isValid(objectId)
+}
 
 const createBlog = async function (req, res) {
     try {
@@ -54,7 +58,7 @@ const updateBlog = async function (req, res) {
         if (!body) return res.status(400).send({ status: false, msg: "Body is not present" })
         if (!tags) return res.status(400).send({ status: false, msg: "Tags not present" })
         if (!subCategory) return res.status(400).send({ status: false, msg: "Subcategory should present" })
-
+if(!isValidObjectId(blogId)){return res.status(400).send ({msg:'blogId is not valid'})}
         let blog = await BlogModel.findById(blogId);
         if (!blog) {
             return res.status(404).send({ status: false, msg: "No such blog exists" });
