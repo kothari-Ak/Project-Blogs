@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const AuthorController = require("../Controllers/authorControllers")
 const BlogController = require("../Controllers/blogController")
-
+const commnMid = require("../Middleware/auth")
 
 router.get("/test-me", function (req, res) {
     res.send("My first ever api!")
