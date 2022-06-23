@@ -16,7 +16,4 @@ router.delete("/blogs/:blogId", BlogController.deleteblog)
 router.delete("/blogs", BlogController.deleteblogByQuery)
 
 
-
-
-
 module.exports = router;
