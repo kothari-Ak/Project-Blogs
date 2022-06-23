@@ -26,14 +26,43 @@ const getAllBlogs = async function (req, res) {
         { isDeleted: false },
         { isPublished: true }
       );
-      if (!allBlogs) {
+      if (Object.keys(allBlogs).length==0) {
         return res.status(404).send({ msg: 'please enter valid blogs' });
       }
       res.status(200).send(allBlogs);
     } catch (err) {
       res.status(500).send({ msg: 'Error', error: err.message });
     }
-  };
+};
+
+// const getAllBlogs = async function (req, res) {      
+//     try {
+//       let authorId = req.query.authorId
+//       let category = req.query.category
+//       let tags = req.query.tags
+//       let subcategory = req.query.subcategory
+// let getBlogs = await BlogModel.find(
+//           { $and: [
+
+//            { $and: [ { isDeleted: false }, { isPublished: true } ] },
+
+//           { $or: [
+//                   { authorId: authorId },
+//                   { category: { $in: [category] } },
+//                   { tags: { $in: [tags] } },
+//                   { subcategory: { $in: [subcategory] } } 
+//               ]
+//               }
+//           ]
+//           }
+//       )
+// if (getBlogs.length == 0) return res.status(404).send({ status: true, msg: "No such blog exist" });
+//       res.status(200).send({ status: true, data: getBlogs })
+  
+// } catch (err) {
+//   res.status(500).send({msg: err.message})
+// }
+// }
 
 
 const updateBlog = async function (req, res) {
@@ -106,6 +135,7 @@ const deleteblogByQuery = async function (req, res) {
             res.status(500).send({status: false, msg: "Error", error: err.message })
         }
     }
+
 module.exports.deleteblog= deleteblog;     
 module.exports.getAllBlogs=getAllBlogs   
 module.exports.deleteblogByQuery=deleteblogByQuery
