@@ -20,38 +20,27 @@ catch(err){
 }
 
 const getAllBlogs = async function (req, res) {
-    try {
-      let data = req.query
-      console.log(data)
-      let allBlogs = await BlogModel.find(data,
-        { isDeleted: false },
-        { isPublished: true }
-      );
-      if (!allBlogs) {
-        return res.status(404).send({ msg: 'please enter valid blogs' });
-      }
-      res.status(200).send(allBlogs);
-    } catch (err) {
-      res.status(500).send({ msg: 'Error', error: err.message });
+  try {
+    let data = req.query.authorId
+    let allBlogs = await BlogModel.find(data,
+      { isDeleted: false },
+      { isPublished: true }
+    );
+
+    if (Object.keys(allBlogs).length!==0) {
+      return res.status(400).send({status:false ,msg: 'No document present' });
+    
     }
-  };
-
-const getBlogs = async function(res,req){
-  try{
-
-    let blogs = await BlogModel.find({isDeleted:false, isPublished:true})
-
-    if(blogs.length === 0){
-      return res.status(404).send({status:false, msg:"No data found."})
-    }else{
-      return res.status(200).send({status:true, data:blogs})
+    if (Object.keys(allBlogs).length==0) {
+      return res.status(404).send({status:false ,msg: 'please enter valid blogs' });
     }
-  } catch(err){
-    res.status(500).send({msg: err.message})
+    res.status(200).send(allBlogs);
+  } catch (err) {
+    res.status(500).send({ msg: 'Error', error: err.message });
   }
-}
+};
 
-module.exports.getBlogs = getBlogs
+
 
 const updateBlog = async function (req, res) {
   try {
@@ -91,7 +80,7 @@ const deleteblog = async function (req, res) {
 
         if(await BlogModel.findByIdAndUpdate(blog, { $set: { isDeleted: true, deletedAt: Date.now() } }, { new: true }));
     
-            res.status(200).send({status: true, msg: "done" });
+            res.status(200).send( );
         }
     catch (err) {
         res.status(500).send({status: false, msg: "Error", error: err.message })
