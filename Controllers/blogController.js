@@ -1,5 +1,4 @@
 const authorModel = require("../Models/authorModel")
-// const blogModel = require("../Models/blogModel")
 const BlogModel = require("../Models/blogModel")
 
 const createBlog= async function (req, res) {
@@ -30,9 +29,6 @@ const getAllBlogs = async function (req, res) {
         ...q
     };
 
-    // const validateId = await authorModel.findById(q.authorId);
-    // if(!validateId) return res.status(404).send({status:false, msg: "AuthorId is not valid"});
-
     const data = await BlogModel.find(filter);
     if(data.length == 0) return res.status(404).send({status:false, msg: "No blog is found"});
 
@@ -41,35 +37,6 @@ const getAllBlogs = async function (req, res) {
     res.status(500).send({status: false, msg: err.message});
 }
 };
-
-// const getAllBlogs = async function (req, res) {      
-//     try {
-//       let authorId = req.query.authorId
-//       let category = req.query.category
-//       let tags = req.query.tags
-//       let subcategory = req.query.subcategory
-// let getBlogs = await BlogModel.find(
-//           { $and: [
-
-//            { $and: [ { isDeleted: false }, { isPublished: true } ] },
-
-//           { $or: [
-//                   { authorId: authorId },
-//                   { category: { $in: [category] } },
-//                   { tags: { $in: [tags] } },
-//                   { subcategory: { $in: [subcategory] } } 
-//               ]
-//               }
-//           ]
-//           }
-//       )
-// if (getBlogs.length == 0) return res.status(404).send({ status: true, msg: "No such blog exist" });
-//       res.status(200).send({ status: true, data: getBlogs })
-  
-// } catch (err) {
-//   res.status(500).send({msg: err.message})
-// }
-// }
 
 
 const updateBlog = async function (req, res) {
