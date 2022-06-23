@@ -25,15 +25,19 @@ const createAuthor = async function (req, res) {
       }
       else { res.status(400).send({ msg: "email is already in use" }) }
 
-    }
     if (!data.password) return res.status(400).send({ status: false, msg: "Password is required" });
 
     else res.status(400).send({ msg: "BAD REQUEST" })  
   }
-  catch (err) {
+}
+  catch(err) {
     res.status(500).send({ msg: "Error", error: err.message })
   }
-};
+}  
+
+  
+
+
 
 module.exports.createAuthor = createAuthor
 
