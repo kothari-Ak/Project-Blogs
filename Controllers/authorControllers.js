@@ -1,5 +1,5 @@
 
-const AuthorModel=require('../Models/authorModel')
+const authorModel=require('../Models/authorModel')
 const validator=require('email-validator');
 
 
@@ -24,9 +24,9 @@ const validEmail = validator.validate(email)
 if (validEmail==false){
   return res.status(400).send({status:false, msg:"email is not valid"})
 }
-    let validemail=await AuthorModel.find({email:email})
+    let validemail=await authorModel.find({email:email})
     if(validemail.length==0){
-        let savedData= await AuthorModel.create(data)
+        let savedData= await authorModel.create(data)
         res.status(201).send({msg: savedData})   
     }
   else {res.status(400).send({msg:"email is already in use"})}
