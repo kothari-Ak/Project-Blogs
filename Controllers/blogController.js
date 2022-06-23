@@ -123,7 +123,7 @@ const deleteblogByQuery = async function (req, res) {
         let fetchdata = await BlogModel.find(query)
 
 
-        if (!fetchdata) {
+        if (fetchdata.length==0) {
             return res.status(404).send({ status: false, msg: " Blog document doesn't exist " })
         }
 

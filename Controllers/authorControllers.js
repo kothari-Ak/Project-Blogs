@@ -1,11 +1,18 @@
 const AuthorModel = require('../Models/authorModel')
 const validator = require('email-validator');
 
+   
 const createAuthor = async function (req, res) {
   try {
     let data = req.body
 
     console.log(data)
+    if(!data.fname) return res.status(400).send({status: false, msg: "First name is required"} );
+    if(!data.lname) return res.status(400).send({status: false, msg: "Last name is required"} );
+    if(!data.title) return res.status(400).send({status: false, msg: "Title is required"} );
+    if(!data.email) return res.status(400).send({status: false, msg: "Email is required"} );
+    if(!data.password) return res.status(400).send({status: false, msg: "Password is required"} );
+
     if (Object.keys(data).length != 0) {
       let email = data.email
       const validEmail = validator.validate(email)
