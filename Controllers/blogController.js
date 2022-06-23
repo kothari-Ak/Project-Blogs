@@ -7,9 +7,8 @@ const createBlog= async function (req, res) {
     let data = req.body
 
     if (Object.keys(data).length == 0){
-      return res.status(400).send({status:false, msg:"Body should not be Empty.. "})
+      return res.status(400).send({status:false, msg:"Body should  be not Empty.. "})
     }
-
     let AuthorId = data.authorId
     let FindId = await authorModel.findById(AuthorId)
     if(!FindId) return res.status(400).send({status:false,msg: 'Author does not exist'})
@@ -37,7 +36,7 @@ const getAllBlogs = async function (req, res) {
     const data = await BlogModel.find(filter);
     if(data.length == 0) return res.status(404).send({status:false, msg: "No blog is found"});
 
-    res.status(201).send({status: true, data: data})
+    res.status(200).send({status: true, data: data})
 }catch(err){
     res.status(500).send({status: false, msg: err.message});
 }
