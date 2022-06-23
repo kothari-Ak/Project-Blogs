@@ -40,7 +40,6 @@ const getAllBlogs = async function (req, res) {
 };
 
 
-
 const updateBlog = async function (req, res) {
   try {
       let data = req.body;
@@ -76,9 +75,9 @@ const deleteblog = async function (req, res) {
     try {
         let blogId = req.params.blogId;
         let blog = await BlogModel.findById(blogId);
-        
-         if (!blog) {
-            return res.status(404).send({status: false,msg:"No such blog exists"});
+
+        if (!blog) {
+            return res.status(404).send({ status: false, msg: "No such blog exists" });
         }
         if (blog.isDeleted == true) {
           return res.status(400).send({ status: false, msg: "Already Deleted " })
@@ -89,9 +88,9 @@ const deleteblog = async function (req, res) {
             res.status(200).send( );
         }
     catch (err) {
-        res.status(500).send({status: false, msg: "Error", error: err.message })
+        res.status(500).send({ status: false, msg: "Error", error: err.message })
     }
-  
+
 }
 
           const deleteblogByQuery = async function (req, res) {
