@@ -10,21 +10,21 @@ router.get("/test-me", function (req, res) {
 
 router.post("/authors", AuthorController.createAuthor)  
 
-router.post("/login",AuthorController.loginAuthor)
+router.post("/login",AuthorController.loginAuthor) 
 
-router.post("/blogs",commnMid.Authentication, BlogController.createBlog)
+router.post("/blogs",commnMid.Authentication,BlogController.createBlog)
 
-router.get('/blogs',commnMid.Authentication, BlogController.getAllBlogs)
+router.get('/blogs',commnMid.Authentication,BlogController.getAllBlogs)
 
-router.put("/blogs/:blogId",commnMid.Authentication, BlogController.updateBlog)
+// router.put("/blogs/:blogId",commnMid.Authentication, BlogController.updateBlog)
 
-router.delete("/blogs/:blogId",commnMid.Authentication, BlogController.deleteblog)
+// router.put("/blogs/:blogId",commnMid.Authentication,commnMid.Authorisation, BlogController.updateBlog)
 
-router.delete("/blogs",commnMid.Authentication, BlogController.deleteblogByQuery) 
+router.put("/blogs/:blogId",commnMid.Authentication,commnMid.Authorisation, BlogController.updateBlog)
+
+router.delete("/blogs/:blogId",commnMid.Authentication,commnMid.Authorisation, BlogController.deleteblog)
+
+router.delete("/blogs",commnMid.Authentication,BlogController.deleteblogByQuery)  
 
 
-
-
-
-
-module.exports = router;
+module.exports = router; 
