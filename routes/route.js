@@ -9,11 +9,11 @@ router.get("/test-me", function (req, res) {
 })
 
 router.post("/authors", AuthorController.createAuthor)
-router.post("/blogs", BlogController.createBlog)
-router.get('/blogs', BlogController.getAllBlogs)
-router.put("/blogs/:blogId", BlogController.updateBlog)
-router.delete("/blogs/:blogId", BlogController.deleteblog)
-router.delete("/blogs", BlogController.deleteblogByQuery)
+router.post("/blogs", commnMid.Authentication, BlogController.createBlog)
+router.get('/blogs', commnMid.Authentication, BlogController.getAllBlogs)
+router.put("/blogs/:blogId", commnMid.Authentication, BlogController.updateBlog)
+router.delete("/blogs/:blogId", commnMid.Authentication, BlogController.deleteblog)
+router.delete("/blogs", commnMid.Authentication, BlogController.deleteblogByQuery)
 
-
+router.post("/login", AuthorController.loginAuthor)
 module.exports = router;
