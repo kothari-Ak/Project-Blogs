@@ -1,4 +1,7 @@
-const jwt = require("jsonwebtoken")
+const jwt = require("jsonwebtoken");
+// const { isValidObjectId } = require("mongoose");
+const BlogModel = require("../Models/blogModel")
+const mongoose = require("mongoose")
 
 let decodedToken
 //  Authentication
@@ -17,11 +20,14 @@ const Authentication = async function(req,res,next){
     //    if (!decodedToken) return res.send({status : false , msg:"token is not valid"});
        next()
     })
+
+    }}
+     catch (err) {
+        res.status(500).send({ msg: "Error", error: err.message })
     }
-}catch(err){
-    res.status(500).send({ msg: "Error", error: err.message })
-}
-}  
+};
+
+module.exports.Authentication = Authentication
 
 
 // const authorise = function(req, res, next) {
@@ -44,7 +50,7 @@ const Authentication = async function(req,res,next){
 //  }
 //  }
 
-module.exports.Authentication = Authentication 
+// module.exports.Authentication = Authentication 
 // module.exports.authorise=authorise
 
    //    let userLoggedIn = decoded.userId; 
