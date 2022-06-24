@@ -4,6 +4,14 @@ const BlogModel = require("../Models/blogModel")
 const createBlog= async function (req, res) {
  try{
     let data = req.body
+    console.log(data)
+    // console.log(Object.keys(data))
+    const { title, body, tags, subCategory, category} = data;
+    if(!title) return res.status(400).send({status:false, msg: "Title should be present"})
+    if(!body) return res.status(400).send({status:false, msg: "Body is not present"})
+    if(!tags) return res.status(400).send({status:false, msg: "Tags not present"})
+    if(!subCategory) return res.status(400).send({status:false, msg: "Subcategory should present"})
+    if(!category) return res.status(400).send({status:false, msg: "Category should present"})
 
     if (Object.keys(data).length == 0){
       return res.status(400).send({status:false, msg:"Body should  be not Empty.. "})
@@ -24,9 +32,10 @@ const getAllBlogs = async function (req, res) {
   try{
     let q = req.query;
     let filter = {
+        ...q,
         isDeleted: false,
         isPublished: true,
-        ...q
+        
     };
 
     const data = await BlogModel.find(filter);
@@ -42,8 +51,8 @@ const getAllBlogs = async function (req, res) {
 const updateBlog = async function (req, res) {
   try {
       let data = req.body;
-      let blogId = req.params.blogId;  
-      
+      let blogId = req.params.blogId;
+    
       const { title, body, tags, subCategory, category} = data;
       if (Object.keys(data).length == 0){
         return res.status(400).send({status:false, msg:"Body should not be Empty.. "})
@@ -84,7 +93,7 @@ const deleteblog = async function (req, res) {
 
         if(await BlogModel.findByIdAndUpdate(blog, { $set: { isDeleted: true, deletedAt: Date.now() } }, { new: true }));
     
-            res.status(200).send( );
+            res.status(200).send();
         }
     catch (err) {
         res.status(500).send({ status: false, msg: "Error", error: err.message })
@@ -95,6 +104,7 @@ const deleteblog = async function (req, res) {
           const deleteblogByQuery = async function (req, res) {
             try {
           const data = req.query;
+          data.isDeleted = false
       
           const { authorId, category, subCategory, tags } = data
           
