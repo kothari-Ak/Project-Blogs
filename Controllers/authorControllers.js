@@ -42,7 +42,7 @@ const loginAuthor = async function (req, res) {
     let author = await authorModel.findOne({ email: emailId, password: password });
     if (!author)
       return res.status(400).send({
-        status: false, msg: "email or the password is not correct",
+        status: false, msg: "email or password is not correct",
       });
 
     let token = jwt.sign(
@@ -54,7 +54,7 @@ const loginAuthor = async function (req, res) {
       "aishwarya-anugya-anjali-kimmi" 
     );
     res.setHeader("x-api-key", token);
-    res.send({ status: true, token: token });
+    res.status(401).send({ status: true, token: token });
 
   }
   catch (err) {
