@@ -63,9 +63,6 @@ const loginAuthor = async function (req, res) {
 }
 
 module.exports.loginAuthor = loginAuthor
-
-
-
 module.exports.createAuthor = createAuthor
 
 

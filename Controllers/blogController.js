@@ -49,7 +49,6 @@ const getAllBlogs = async function (req, res) {
 }
 };
 
-
 const updateBlog = async function (req, res) {
   try {
       let data = req.body;
