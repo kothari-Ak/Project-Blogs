@@ -1,6 +1,7 @@
-const authorModel = require('../Models/authorModel')
+const authorModel = require('../Models/authorModel');
 const validator = require('email-validator');
 const jwt = require("jsonwebtoken");
+ 
 
 const typeChecking = function(data){
       if(typeof data !== 'string' ){
@@ -35,23 +36,16 @@ const typeChecking = function(data){
         res.status(201).send({ msg: savedData })
       }
       else { res.status(400).send({ msg: "email is already in use" }) }
-
-    if (!data.password) return res.status(400).send({ status: false, msg: "Password is required" });
-
-    else res.status(400).send({ msg: "BAD REQUEST" })  
-  }
-}
-  catch(err) {
-    res.status(500).send({ msg: "Error", error: err.message })
-  }
+  }}
+catch (err) {
+  res.status(500).send({ status: false, error: err.message })
 }  
+} 
+ 
 
-  
+module.exports.createAuthor = createAuthor 
 
-
-
-module.exports.createAuthor = createAuthor
-
+// ===========================[Login]========================================
 
 const loginAuthor = async function (req, res) {
   try {
@@ -63,7 +57,7 @@ const loginAuthor = async function (req, res) {
       return res.status(400).send({
         status: false, msg: "email or password is not correct",
       });
-
+ 
     let token = jwt.sign(
       {
         authorId: author._id.toString(),
