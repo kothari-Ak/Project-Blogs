@@ -2,13 +2,24 @@ const authorModel = require('../Models/authorModel')
 const validator = require('email-validator');
 const jwt = require("jsonwebtoken");
 
-
-const createAuthor = async function (req, res) {
+const typeChecking = function(data){
+      if(typeof data !== 'string' ){
+          return false;
+      }else if(typeof data === 'string'){
+          return true;
+      }else{
+          return true;
+      }
+  }
+  const createAuthor = async function (req, res) {
   try {
     let data = req.body
     if (Object.keys(data).length != 0) { 
 
     if (!data.fname) return res.status(400).send({ status: false, msg: "First name is required" });
+    if(!typeChecking(data.fname)){
+                  return res.status(400).send({status: false,msg: "Please enter first name in right format...!"});
+              }
     if (!data.lname) return res.status(400).send({ status: false, msg: "Last name is required" });
     if (!data.title) return res.status(400).send({ status: false, msg: "Title is required" });
     if (!data.email) return res.status(400).send({ status: false, msg: "Email is required" });
