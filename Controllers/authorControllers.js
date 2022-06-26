@@ -3,31 +3,48 @@ const validator = require('email-validator');
 const jwt = require("jsonwebtoken");
  
 
-const typeChecking = function(data){
-      if(typeof data !== 'string' ){
-          return false;
-      }else if(typeof data === 'string'){
-          return true;
-      }else{
-          return true;
-      }
+// =======================[Create]======================================
+ const isValid = function (value) {
+  // if( typeof value === 'undefined' || value === null ) {
+  //   console.log("1")
+  //     return false
+  // }
+  if( typeof value == 'string' && value.trim().length == 0 ) {
+    console.log("2") 
+      return false
   }
-  const createAuthor = async function (req, res) {
-  try {
-    let data = req.body
-    if (Object.keys(data).length != 0) { 
 
-    if (!data.fname) return res.status(400).send({ status: false, msg: "First name is required" });
-    if(!typeChecking(data.fname)){
-                  return res.status(400).send({status: false,msg: "Please enter first name in right format...!"});
-              }
-    if (!data.lname) return res.status(400).send({ status: false, msg: "Last name is required" });
-    if (!data.title) return res.status(400).send({ status: false, msg: "Title is required" });
-    if (!data.email) return res.status(400).send({ status: false, msg: "Email is required" });
-   
-      let email = data.email
-      const validEmail = validator.validate(email)
-      if (validEmail == false) {
+  if ( typeof value == 'string' && value.length !== value.trim().length ) {
+    console.log("4")
+      return false
+  }
+  if ( typeof value == 'number' ) {
+    console.log("5")
+      return false
+  }
+  return true
+}
+const createAuthor = async function (req, res) {
+  try { 
+    let data = req.body 
+   const { fname, lname, title, email, password } = data;
+   let inValid = ' '
+        if ( !isValid ( fname ) ){
+          inValid = inValid + "fname( First name ) "
+        } 
+        if ( !isValid ( lname ) ) inValid = inValid + "lname( Last name ) "
+        if ( !isValid ( title ) ) inValid = inValid + 'title( "Mr", "Mrs", "Miss" ) '
+        if ( !isValid ( email ) ) inValid = inValid + "email "
+        if ( !isValid ( password ) ) inValid = inValid + "password "
+        if ( !isValid(fname) || !isValid(lname) || !isValid(title) || !isValid(email) || !isValid(password) ) {
+          return res.status(400).send({ status: false, msg: `Enter valid details in following field(s): ${inValid}` })
+        }
+        if (Object.keys(data).length == 0) {
+          return res.status(400).send({ status: false, msg: "Body should  be not Empty.. " })
+      }
+        
+        const validEmail = validator.validate(email)
+        if (validEmail == false) {
         return res.status(400).send({ status: false, msg: "email is not valid" })
       }
       let validemail = await authorModel.find({ email: email })
@@ -36,7 +53,7 @@ const typeChecking = function(data){
         res.status(201).send({ msg: savedData })
       }
       else { res.status(400).send({ msg: "email is already in use" }) }
-  }}
+  }
 catch (err) {
   res.status(500).send({ status: false, error: err.message })
 }  
@@ -66,7 +83,7 @@ const loginAuthor = async function (req, res) {
       },
       "aishwarya-anugya-anjali-kimmi" 
     );
-    res.setHeader("x-api-key", token);
+    // res.setHeader("x-api-key", token);
     res.status(200).send({ status: true, token: token });
 
   }
