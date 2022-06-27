@@ -5,10 +5,10 @@ const jwt = require("jsonwebtoken");
 
 // =======================[Create]======================================
  const isValid = function (value) {
-  if( typeof value === 'undefined' || value === null ) {
-    console.log("1")
-      return false
-  }
+  // if( typeof value === 'undefined' || value === null ) {
+  //   console.log("1")
+  //     return false
+  // }
   if( typeof value == 'string' && value.trim().length == 0 ) {
     console.log("2") 
       return false
@@ -39,6 +39,9 @@ const createAuthor = async function (req, res) {
         if ( !isValid(fname) || !isValid(lname) || !isValid(title) || !isValid(email) || !isValid(password) ) {
           return res.status(400).send({ status: false, msg: `Enter valid details in following field(s): ${inValid}` })
         }
+        if (Object.keys(data).length == 0) {
+          return res.status(400).send({ status: false, msg: "Body should  be not Empty.. " })
+      }
         
         const validEmail = validator.validate(email)
         if (validEmail == false) {

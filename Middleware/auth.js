@@ -43,4 +43,3 @@ const Authorisation = async function (req, res, next) {
     }
 };
 module.exports.Authorisation = Authorisation ;
-
