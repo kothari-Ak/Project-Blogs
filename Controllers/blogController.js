@@ -21,6 +21,7 @@ const isValid = function (value) {
     }
     return true
   }
+  
 const createBlog = async function (req, res) {
     try {
         let data = req.body
