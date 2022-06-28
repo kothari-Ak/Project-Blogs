@@ -31,13 +31,16 @@ const Authorisation = async function (req, res, next) {
         
         let authorToBeModified = req.params.blogId
         // console.log(authorToBeModified)
-
+ 
         let blog = await BlogModel.findById({_id : authorToBeModified})
-      console.log(blog)
-      console.log(decodedToken)
-        // let authorLogin = decodedToken.authorId
+    //   console.log(blog)
+      if (!blog) {
+        return res.status(404).send({ status: false, msg: "No such blog exists" });
+    }
+    //   console.log(decodedToken) 
+        let authorLogin = decodedToken.authorId
     
-        if ( blog.authorId != decodedToken) 
+        if ( blog.authorId != authorLogin) 
             return res.status(403).send({ status: false, msg: 'You are not authorized.' })
         next()
     }
