@@ -78,21 +78,25 @@ const updateBlog = async function (req, res) {
         let data = req.body;
         let blogId = req.params.blogId;
         // let authorToBeModified = req.query.authorId
-        const { title, body, tags, subCategory, category } = data;
+        // const { title, body, tags, subCategory, category } = data;
         if (Object.keys(data).length == 0) {
             return res.status(400).send({ status: false, msg: "Body should not be Empty.. " })
         }
 
-        let blog = await BlogModel.findOne({_id : blogId, authorId:req.query.authorId});
-        if (!blog) {
-            return res.status(404).send({ status: false, msg: "No such blog exists" });
-        }
-        if (blog.isDeleted == true) {
-            return res.status(400).send({ status: false, msg: "Blog already deleted" })
-        }
-        let updatedblog = await BlogModel.findByIdAndUpdate({ _id: blogId }, { $addToSet: { tags: tags, subCategory: subCategory }, $set: { title: title, body: body, category: category, isPublished: true, publishedAt: Date.now() } }, { new: true });
+        let blog = await BlogModel.findByIdAndUpdate({_id : blogId, isDeleted:false},
+            {
+                $set: {isPublished:true , body: data.body, title:data.title, publishedAt: new Date()},
+                $push: {tags: data.tags, subCategory:data.subCategory }
+            },{new : true});
+        // if (!blog) {
+        //     return res.status(404).send({ status: false, msg: "No such blog exists" });
+        // }
+        // if (blog.isDeleted == true) {
+        //     return res.status(400).send({ status: false, msg: "Blog already deleted" })
+        // }
+        // let updatedblog = await BlogModel.findByIdAndUpdate({ _id: blogId }, { $addToSet: { tags: tags, subCategory: subCategory }, $set: { title: title, body: body, category: category, isPublished: true, publishedAt: Date.now() } }, { new: true });
 
-        res.status(200).send({ status: true, msg: "done", data: updatedblog });
+        res.status(200).send({ status: true, msg: "done", data: blog });
     }
     catch (err) {
         res.status(500).send({ status: false, msg: "Error", error: err.message })
