@@ -32,9 +32,8 @@ const createAuthor = async function (req, res) {
    
         if ( !isValid ( fname ) ){res.status(400).send({status:false, msg:"Enter valid First Name."})} 
         if ( !isValid ( lname ) ) {res.status(400).send({status:false, msg:"Enter valid Last Name."})}
-        // if ( !isValidTitle ( title ) ) {res.status(400).send({status:false, msg:"Enter valid Title."})}
-        if ( !isValid ( title ) ) {return res.status(400).send({status:false, msg:"Title is required"})}
-        if ( !isValidTitle ( title ) ) {return res.status(400).send({status:false, msg: "Title should be among Mr, Mrs and Miss"})}
+        if ( !isValid ( title ) ) {res.status(400).send({status:false, msg:"Enter valid Title."})}
+        if ( !isValidTitle ( title ) ) {res.status(400).send({status:false, msg: "Title should be among Mr, Mrs and Miss"})}
         if ( !isValid ( email ) ) {res.status(400).send({status:false, msg:"Enter valid Email."})}
         if ( !isValid ( password ) ){res.status(400).send({status:false, msg:"Enter valid Password."})}
         
