@@ -124,44 +124,18 @@ const deleteblog = async function (req, res) {
 
 const deleteblogByQuery = async function (req, res) {
     try {
-        const data = req.query;
-        console.log(data)
-        const { authorId, category, subCategory, tags } = data
+        let data = req.query
+        data.authorId = req.authorId
+        
+        let mandatory = { isDeleted: false, isPublished: false, ...data };
 
-        if (Object.keys(data).length == 0) {
-            return res.status(400).send({ status: false, msg: "Body should not be Empty.. " })
-        }
-        if (authorId) {
-            let verifysubcategory = await BlogModel.findOne({ authorId: authorId })
-            if (!verifysubcategory) return res.status(400).send({ status: false, msg: 'No blog with this authorId exist' });
-        }
+        let findBlogs = await BlogModel.find( mandatory )
+        if ( findBlogs.length === 0 ) return res.status(400).send({ status: false, msg: "No such blog found to delete." })
 
-        if (category) {
-            let verifyCategory = await BlogModel.findOne({ category: category })
-            if (!verifyCategory) return res.status(400).send({ status: false, msg: 'No blogs in this category exist' });
-        }
-        
-        if (tags) {
-            let verifytags = await BlogModel.findOne({ tags: tags })
-            if (!verifytags) return res.status(400).send({ status: false, msg: 'No blog with this tags exist' });
-        }
-        
-        if (subCategory) {
-            let verifysubcategory = await BlogModel.findOne({ subCategory: subCategory })
-            if (!verifysubcategory) return res.status(400).send({ status: false, msg: 'No blog with this subcategory exist' });
-        }
-        
-        data.isDeleted = false
-        data.isPublished = false
-        let blogs = await BlogModel.find(data)
-        if(blogs.length === 0) return res.status(400).send({status:false, msg:"Either already deleted or no blog found as per the provided data"})
-
-        const deleteByQuery = await BlogModel.updateMany(data, { isDeleted: true, deletedAt: new Date() }, { new: true });
-            return res.status(200).send({status:true, msg:"Your blogs have been deleted",data:deleteByQuery})
-        
-    }
-    catch (err) {
-        res.status(500).send({ status: false, msg: "Error", error: err.message })
+        let deleted = await BlogModel.updateMany( mandatory, { isDeleted: true, deletedAt: new Date() }, { new: true } )
+        return res.status(200).send({ status: true, data: deleted })
+    } catch (err) {
+        return res.status(500).send({ status: false, message: err.message })
     }
 }
 

@@ -13,7 +13,7 @@ router.post("/blogs", commnMid.Authentication, BlogController.createBlog)
 router.get('/blogs', commnMid.Authentication, BlogController.getAllBlogs)
 router.put("/blogs/:blogId", commnMid.Authentication, commnMid.Authorisation, BlogController.updateBlog)
 router.delete("/blogs/:blogId", commnMid.Authentication, commnMid.Authorisation, BlogController.deleteblog)
-router.delete("/blogs", commnMid.Authentication, commnMid.Authorisation, BlogController.deleteblogByQuery)
+router.delete("/blogs", commnMid.Authentication, commnMid.mid3, BlogController.deleteblogByQuery)
 
 router.post("/login", AuthorController.loginAuthor)
 module.exports = router;
