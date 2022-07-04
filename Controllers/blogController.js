@@ -8,7 +8,7 @@ const isValid = function (value) {
     //     return false
     // }
     if( typeof value == 'string' && value.trim().length == 0 ) {
-      console.log("2")
+    //   console.log("2")
         return false
     }
     if ( typeof value == 'string' && value.length !== value.trim().length ) {
@@ -125,14 +125,15 @@ const deleteblog = async function (req, res) {
 const deleteblogByQuery = async function (req, res) {
     try {
         let data = req.query
-        data.authorId = req.authorId
+        data.isDeleted=false
+        // data.authorId = req.authorId
         
-        let mandatory = { isDeleted: false, isPublished: false, ...data };
+        // let mandatory = { isDeleted: false, isPublished: false, ...data };
 
-        let findBlogs = await BlogModel.find( mandatory )
+        let findBlogs = await BlogModel.find( data )
         if ( findBlogs.length === 0 ) return res.status(400).send({ status: false, msg: "No such blog found to delete." })
 
-        let deleted = await BlogModel.updateMany( mandatory, { isDeleted: true, deletedAt: new Date() }, { new: true } )
+        let deleted = await BlogModel.updateMany( data, { isDeleted: true, deletedAt: new Date() }, { new: true } )
         return res.status(200).send({ status: true, data: deleted })
     } catch (err) {
         return res.status(500).send({ status: false, message: err.message })

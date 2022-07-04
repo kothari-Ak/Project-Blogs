@@ -1,28 +1,30 @@
 const authorModel = require('../Models/authorModel');
 const validator = require('email-validator');
 const jwt = require("jsonwebtoken");
-const { title } = require('process');
+// const { title } = require('process');
  
 
 // =======================[Create]======================================
  const isValid = function (value) {
   
   if( typeof value == 'string' && value.trim().length == 0 ) {
-    console.log("2") 
+    // console.log("2") 
       return false
   }
   if ( typeof value == 'string' && value.length !== value.trim().length ) {
-    console.log("4")
+    // console.log("4")
       return false
   }
   if ( typeof value == 'number' ) {
-    console.log("5")
+    // console.log("5")
       return false
   }
   return true
 }
   const isValidTitle = function(title){
+    // console.log("0")
     return ['Mr','Mrs','Miss'].indexOf(title) !== -1
+    
    }
         
 const createAuthor = async function (req, res) {
@@ -30,10 +32,10 @@ const createAuthor = async function (req, res) {
     let data = req.body 
    const { fname, lname, title, email, password } = data;
    
-        if ( !isValid ( fname ) ){res.status(400).send({status:false, msg:"Enter valid First Name."})} 
-        if ( !isValid ( lname ) ) {res.status(400).send({status:false, msg:"Enter valid Last Name."})}
-        if ( !isValid ( title ) ) {res.status(400).send({status:false, msg:"Enter valid Title."})}
-        if ( !isValidTitle ( title ) ) {res.status(400).send({status:false, msg: "Title should be among Mr, Mrs and Miss"})}
+        if ( !isValid ( fname ) ){return res.status(400).send({status:false, msg:"Enter valid First Name."})} 
+        if ( !isValid ( lname ) ) {return res.status(400).send({status:false, msg:"Enter valid Last Name."})}
+        if ( !isValid ( title ) ) {return res.status(400).send({status:false, msg:"Title is required"})}
+        if ( !isValidTitle ( title ) ) {return res.status(400).send({status:false, msg: "Title should be among Mr, Mrs and Miss"})}
         if ( !isValid ( email ) ) {res.status(400).send({status:false, msg:"Enter valid Email."})}
         if ( !isValid ( password ) ){res.status(400).send({status:false, msg:"Enter valid Password."})}
         
@@ -80,7 +82,7 @@ const loginAuthor = async function (req, res) {
       },
       "aishwarya-anugya-anjali-kimmi" 
     );
-    // res.setHeader("x-api-key", token);
+    //  res.setHeader("x-api-key", token);
     res.status(200).send({ status: true, token: token });
 
   }
