@@ -1,8 +1,8 @@
+
 const jwt = require("jsonwebtoken");
 const BlogModel = require("../Models/blogModel")
 
-
- //==================== [Authentication Middleware]===============================
+//============================== [Authentication Middleware]===============================//
 
 const Authentication = function (req, res, next) {
     try {
@@ -12,7 +12,7 @@ const Authentication = function (req, res, next) {
     jwt.verify(token, "aishwarya-anugya-anjali-kimmi",function(err,data){
         if(err) return res.status(401).send({status:false, msg:"token is not valid"})
     
-    else {req.authordata = data}
+    else {req.data = data}
     // console.log(data) 
     next()
     })
@@ -29,7 +29,7 @@ const Authorisation = async function (req, res, next) {
         let token = req.headers["x-api-key"]
         if (!token) return res.status(400).send({ status: false, msg: "token must be present " })
         let decodedToken = jwt.verify(token, "aishwarya-anugya-anjali-kimmi")
-        
+  0      
         let authorToBeModified = req.params.blogId
         // console.log(authorToBeModified)
  
@@ -38,7 +38,7 @@ const Authorisation = async function (req, res, next) {
       if (!blog) {
         return res.status(404).send({ status: false, msg: "No such blog exists" });
     }
-    //   console.log(decodedToken) 
+      console.log(decodedToken) 
         let authorLogin = decodedToken.authorId
     
         if ( blog.authorId != authorLogin) 
@@ -59,7 +59,7 @@ const mid3 = async function (req,res,next){
         let decodedToken = jwt.verify(token, "aishwarya-anugya-anjali-kimmi")
         let authorId = req.query.authorId
         
-        if ( authorId && authorId !== decodedToken.authorId ) return res.status(400).send({ status: false, msg: "You are not authorized to delete these blogs. authorId doesn't belong to you."})
+        if (authorId !== decodedToken.authorId ) return res.status(400).send({ status: false, msg: "You are not authorized to delete these blogs. authorId doesn't belong to you."})
         req.authorId = decodedToken.authorId
         next()
     } catch (err) {

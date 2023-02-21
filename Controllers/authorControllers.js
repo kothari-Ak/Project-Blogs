@@ -3,10 +3,8 @@ const validator = require('email-validator');
 const jwt = require("jsonwebtoken");
 // const { title } = require('process');
  
-
-// =======================[Create]======================================
+// =======================[Create]======================================//
  const isValid = function (value) {
-  
   if( typeof value == 'string' && value.trim().length == 0 ) {
     // console.log("2") 
       return false
@@ -21,15 +19,15 @@ const jwt = require("jsonwebtoken");
   }
   return true
 }
+
   const isValidTitle = function(title){
     // console.log("0")
-    return ['Mr','Mrs','Miss'].indexOf(title) !== -1
-    
+    return ['Mr','Mrs','Miss'].indexOf(title) !== -1    
    }
         
 const createAuthor = async function (req, res) {
   try { 
-    let data = req.body 
+    let data = req.body
    const { fname, lname, title, email, password } = data;
    
         if ( !isValid ( fname ) ){return res.status(400).send({status:false, msg:"Enter valid First Name."})} 
@@ -39,6 +37,9 @@ const createAuthor = async function (req, res) {
         if ( !isValid ( email ) ) {res.status(400).send({status:false, msg:"Enter valid Email."})}
         if ( !isValid ( password ) ){res.status(400).send({status:false, msg:"Enter valid Password."})}
         
+        if(!fname || !lname ||!title || !email || !password) 
+        return res.status(400).send({status:false, msg:"please send all the required details"})
+
         if (Object.keys(data).length == 0) {
           return res.status(400).send({ status: false, msg: "Body should  be not Empty.. " })
       } 

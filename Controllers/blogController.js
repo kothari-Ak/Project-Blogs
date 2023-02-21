@@ -36,6 +36,7 @@ const createBlog = async function (req, res) {
         if ( !isValid(title) || !isValid(body) ||!isValid(authorId) || !isValid(tags) || !isValid(category) || !isValid(subCategory) ) {
             return res.status(400).send({ status: false, msg: `Enter valid details in following field(s): ${inValid}` })
         }
+        if(!title||!body||!authorId||!category) return res.status(400).send({status:false,msg:"please provide all the required details"})
    
         if (Object.keys(data).length == 0) {
             return res.status(400).send({ status: false, msg: "Body should  be not Empty.. " })
@@ -59,7 +60,7 @@ const getAllBlogs = async function (req, res) {
         let filter = {
             ...q,
             isDeleted: false,
-            isPublished: true,
+            
         };
 
         const data = await BlogModel.find(filter);
@@ -77,7 +78,7 @@ const updateBlog = async function (req, res) {
     try {
         let data = req.body;
         let blogId = req.params.blogId;
-        // const { title, body, tags, subCategory, category } = data;
+        //const { title, body, tags, subCategory, category } = data;
         if (Object.keys(data).length == 0) {
             return res.status(400).send({ status: false, msg: "Body should not be Empty.. " })
         }
